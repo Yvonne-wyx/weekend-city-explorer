@@ -4,34 +4,33 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#103b32" />
-    <meta name="description" content="鎸夊ぉ姘斻€侀绠楀拰鍚岃浜烘暟鎵惧埌閫傚悎浣犵殑鍛ㄦ湯鍩庡競娲诲姩銆? />
-    <title>鍛ㄦ湯鍩庡競鎺㈢储鎸囧崡</title>
+    <meta name="description" content="按天气、预算和同行人数找到适合你的周末城市活动。" />
+    <title>周末城市探索指南</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23103b32'/%3E%3Cpath d='M15 38c10-2 13-15 18-21 4 9 9 15 17 16-8 2-14 7-18 14-3-5-9-8-17-9Z' fill='%23d8ff5b'/%3E%3C/svg%3E" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <main class="shell">
       <header>
-        <a class="brand" href="#top" aria-label="鍛ㄦ湯鍩庡競鎺㈢储鎸囧崡棣栭〉"><span>W</span> WEEKEND</a>
-        <div class="header-actions"><button class="text-btn" id="savedBtn">鎯冲幓 <b id="savedCount">0</b></button><button class="avatar" aria-label="鎴戠殑璐︽埛">鏋?/button></div>
+        <a class="brand" href="#top" aria-label="周末城市探索指南首页"><span>W</span> WEEKEND</a>
+        <div class="header-actions"><button class="text-btn" id="savedBtn">想去 <b id="savedCount">0</b></button><button class="avatar" aria-label="我的账户">林</button></div>
       </header>
       <section class="intro" id="top">
-        <div><p class="eyebrow">SAT 路 20 SEP 路 涓婃捣</p><h1>鎶婂懆鏈紝<em>杩囧緱鏈夌偣鎰忔€濄€?/em></h1><p class="lead">鏍规嵁澶╂皵銆侀绠楀拰鍚屼即锛屾寫涓€浠朵粖澶╁氨鑳藉嚭鍙戠殑灏忎簨銆?/p></div>
-        <div class="weather-card"><span class="weather-icon">鈽€</span><div><b>鏅存湕锛?4掳C</b><small>寰 路 閫傚悎鎴峰鎺㈢储</small></div><button id="weatherToggle" aria-label="鍒囨崲澶╂皵">鍒囨崲</button></div>
+        <div><p class="eyebrow">SAT · 20 SEP · 上海</p><h1>把周末，<em>过得有点意思。</em></h1><p class="lead">根据天气、预算和同伴，挑一件今天就能出发的小事。</p></div>
+        <div class="weather-card"><span class="weather-icon">☀</span><div><b>晴朗，24°C</b><small>微风 · 适合户外探索</small></div><button id="weatherToggle" aria-label="切换天气">切换</button></div>
       </section>
-      <section class="controls" aria-label="娲诲姩鍋忓ソ">
-        <div class="control-label">浠婂ぉ鎯宠 <span>鍙殢鏃舵敼</span></div>
-        <div class="chips" id="interestChips"><button class="chip active" data-interest="all">鍏ㄩ儴</button><button class="chip" data-interest="鑹烘湳">鐪嬪睍</button><button class="chip" data-interest="甯傞泦">閫涘競闆?/button><button class="chip" data-interest="闊充箰">鍚幇鍦?/button><button class="chip" data-interest="鑷劧">鍘诲緬姝?/button></div>
-        <div class="filter-row"><label>棰勭畻 <select id="budget"><option value="999">涓嶉檺</option><option value="50">楼50 鍐?/option><option value="100">楼100 鍐?/option><option value="200">楼200 鍐?/option></select></label><label>鍚岃 <select id="people"><option value="1">涓€涓汉</option><option value="2">涓や釜浜?/option><option value="3">3鈥? 浜?/option><option value="5">5 浜轰互涓?/option></select></label><button class="locate" id="locateBtn">鈱?闄勮繎 3km</button></div>
+      <section class="controls" aria-label="活动偏好">
+        <div class="control-label">今天想要 <span>可随时改</span></div>
+        <div class="chips" id="interestChips"><button class="chip active" data-interest="all">全部</button><button class="chip" data-interest="艺术">看展</button><button class="chip" data-interest="市集">逛市集</button><button class="chip" data-interest="音乐">听现场</button><button class="chip" data-interest="自然">去徒步</button></div>
+        <div class="filter-row"><label>预算 <select id="budget"><option value="999">不限</option><option value="50">¥50 内</option><option value="100">¥100 内</option><option value="200">¥200 内</option></select></label><label>同行 <select id="people"><option value="1">一个人</option><option value="2">两个人</option><option value="3">3–4 人</option><option value="5">5 人以上</option></select></label><button class="locate" id="locateBtn">⌖ 附近 3km</button></div>
       </section>
-      <section class="results-head"><div><p class="eyebrow">涓轰綘鎸戜簡</p><h2><span id="resultCount">4</span> 涓懆鏈ソ鍘诲</h2></div><button class="sort" id="sortBtn">鏈€浣冲尮閰?鈫?/button></section>
+      <section class="results-head"><div><p class="eyebrow">为你挑了</p><h2><span id="resultCount">4</span> 个周末好去处</h2></div><button class="sort" id="sortBtn">最佳匹配 ↓</button></section>
       <section class="cards" id="activityList" aria-live="polite"></section>
-      <section class="team-banner"><div class="spark">鉁?/div><div><b>杩樻病鎵惧埌鎼瓙锛?/b><p>鍙戝竷浣犵殑鍛ㄦ湯璁″垝锛岃鍚屾牎鐨勪汉涓€璧峰嚭鍙戙€?/p></div><button id="startTeam">鍙戣捣缁勯槦</button></section>
-      <section class="checkin"><div><p class="eyebrow">THIS WEEKEND</p><h2>浣犵殑鎺㈢储瓒宠抗</h2></div><div class="stamp"><b id="checkinCount">0</b><span>宸叉墦鍗?/span></div><p id="checkinCopy">浠庝竴涓皬灏忕殑鍛ㄦ湯璁″垝寮€濮嬨€?/p></section>
+      <section class="team-banner"><div class="spark">✦</div><div><b>还没找到搭子？</b><p>发布你的周末计划，让同校的人一起出发。</p></div><button id="startTeam">发起组队</button></section>
+      <section class="checkin"><div><p class="eyebrow">THIS WEEKEND</p><h2>你的探索足迹</h2></div><div class="stamp"><b id="checkinCount">0</b><span>已打卡</span></div><p id="checkinCopy">从一个小小的周末计划开始。</p></section>
     </main>
-    <dialog id="detailDialog"><button class="close" aria-label="鍏抽棴">脳</button><div id="detailContent"></div></dialog>
-    <dialog id="teamDialog"><button class="close" aria-label="鍏抽棴">脳</button><div class="dialog-inner"><p class="eyebrow">FIND YOUR CREW</p><h2>鍙戣捣涓€娆″懆鏈嚭鍙?/h2><label>璁″垝鍚嶇О<input id="teamTitle" value="鍛ㄥ叚涓€璧峰幓鍩庡競鎺㈢储" /></label><label>鎯崇害鍑犱綅鍚屼即<select id="teamSize"><option>1 浣?/option><option>2 浣?/option><option>3 浣?/option></select></label><button class="primary" id="publishTeam">鍙戝竷缁勯槦</button></div></dialog>
+    <dialog id="detailDialog"><button class="close" aria-label="关闭">×</button><div id="detailContent"></div></dialog>
+    <dialog id="teamDialog"><button class="close" aria-label="关闭">×</button><div class="dialog-inner"><p class="eyebrow">FIND YOUR CREW</p><h2>发起一次周末出发</h2><label>计划名称<input id="teamTitle" value="周六一起去城市探索" /></label><label>想约几位同伴<select id="teamSize"><option>1 位</option><option>2 位</option><option>3 位</option></select></label><button class="primary" id="publishTeam">发布组队</button></div></dialog>
     <div class="toast" id="toast" role="status"></div><script type="module" src="/app.js"></script>
   </body>
 </html>
-
