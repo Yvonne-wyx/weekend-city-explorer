@@ -1,36 +1,19 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#103b32" />
-    <meta name="description" content="按天气、预算和同行人数找到适合你的周末城市活动。" />
-    <title>周末城市探索指南</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23103b32'/%3E%3Cpath d='M15 38c10-2 13-15 18-21 4 9 9 15 17 16-8 2-14 7-18 14-3-5-9-8-17-9Z' fill='%23d8ff5b'/%3E%3C/svg%3E" />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <main class="shell">
-      <header>
-        <a class="brand" href="#top" aria-label="周末城市探索指南首页"><span>W</span> WEEKEND</a>
-        <div class="header-actions"><button class="text-btn" id="savedBtn">想去 <b id="savedCount">0</b></button><button class="avatar" aria-label="我的账户">林</button></div>
-      </header>
-      <section class="intro" id="top">
-        <div><p class="eyebrow">SAT · 20 SEP · 上海</p><h1>把周末，<em>过得有点意思。</em></h1><p class="lead">根据天气、预算和同伴，挑一件今天就能出发的小事。</p></div>
-        <div class="weather-card"><span class="weather-icon">☀</span><div><b>晴朗，24°C</b><small>微风 · 适合户外探索</small></div><button id="weatherToggle" aria-label="切换天气">切换</button></div>
-      </section>
-      <section class="controls" aria-label="活动偏好">
-        <div class="control-label">今天想要 <span>可随时改</span></div>
-        <div class="chips" id="interestChips"><button class="chip active" data-interest="all">全部</button><button class="chip" data-interest="艺术">看展</button><button class="chip" data-interest="市集">逛市集</button><button class="chip" data-interest="音乐">听现场</button><button class="chip" data-interest="自然">去徒步</button></div>
-        <div class="filter-row"><label>预算 <select id="budget"><option value="999">不限</option><option value="50">¥50 内</option><option value="100">¥100 内</option><option value="200">¥200 内</option></select></label><label>同行 <select id="people"><option value="1">一个人</option><option value="2">两个人</option><option value="3">3–4 人</option><option value="5">5 人以上</option></select></label><button class="locate" id="locateBtn">⌖ 附近 3km</button></div>
-      </section>
-      <section class="results-head"><div><p class="eyebrow">为你挑了</p><h2><span id="resultCount">4</span> 个周末好去处</h2></div><button class="sort" id="sortBtn">最佳匹配 ↓</button></section>
-      <section class="cards" id="activityList" aria-live="polite"></section>
-      <section class="team-banner"><div class="spark">✦</div><div><b>还没找到搭子？</b><p>发布你的周末计划，让同校的人一起出发。</p></div><button id="startTeam">发起组队</button></section>
-      <section class="checkin"><div><p class="eyebrow">THIS WEEKEND</p><h2>你的探索足迹</h2></div><div class="stamp"><b id="checkinCount">0</b><span>已打卡</span></div><p id="checkinCopy">从一个小小的周末计划开始。</p></section>
-    </main>
-    <dialog id="detailDialog"><button class="close" aria-label="关闭">×</button><div id="detailContent"></div></dialog>
-    <dialog id="teamDialog"><button class="close" aria-label="关闭">×</button><div class="dialog-inner"><p class="eyebrow">FIND YOUR CREW</p><h2>发起一次周末出发</h2><label>计划名称<input id="teamTitle" value="周六一起去城市探索" /></label><label>想约几位同伴<select id="teamSize"><option>1 位</option><option>2 位</option><option>3 位</option></select></label><button class="primary" id="publishTeam">发布组队</button></div></dialog>
-    <div class="toast" id="toast" role="status"></div><script type="module" src="/app.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="WEEKEND：找到可立即出发的城市路线和同行伙伴。" />
+  <meta name="theme-color" content="#112e2b" /><title>WEEKEND｜城市探索指南</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=Noto+Sans+SC:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div id="app"></div>
+  <dialog id="authDialog"></dialog><dialog id="detailDialog"></dialog><dialog id="messageDialog"></dialog>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script type="module" src="/app.js"></script>
+</body>
 </html>
