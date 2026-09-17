@@ -1,0 +1,283 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ActivityType {
+  EXHIBITION
+  MARKET
+  PERFORMANCE
+  HIKE
+}
+
+enum ActivityStatus {
+  DRAFT
+  PUBLISHED
+  CANCELLED
+  SOLD_OUT
+}
+
+enum GroupStatus {
+  OPEN
+  FULL
+  CLOSED
+  CANCELLED
+  COMPLETED
+}
+
+enum JoinStatus {
+  PENDING
+  APPROVED
+  DECLINED
+  WAITLIST
+  CANCELLED
+}
+
+enum MemberRole {
+  HOST
+  MEMBER
+}
+
+enum GuideStatus {
+  DRAFT
+  PUBLISHED
+  HIDDEN
+}
+
+enum SavedItemType {
+  ACTIVITY
+  ROUTE
+  VENUE
+  GUIDE
+}
+
+enum MessageType {
+  TEXT
+  SYSTEM
+  GROUP_UPDATE
+}
+
+enum NotificationType {
+  JOIN_REQUEST
+  JOIN_APPROVED
+  GROUP_REMINDER
+  MESSAGE
+  COMMENT
+}
+
+model User {
+  id String @id @default(cuid())
+  email String @unique
+  passwordHash String?
+  nickname String
+  avatarUrl String?
+  city String @default("上海")
+  school String?
+  schoolVerified Boolean @default(false)
+  bio String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  preference UserPreference?
+  hostedGroups DepartureGroup[] @relation("GroupHost")
+  groupMembers GroupMember[]
+  joinRequests JoinRequest[]
+  checkins Checkin[]
+  guides GuidePost[]
+  savedItems SavedItem[]
+  sentMessages Message[] @relation("Sender")
+  notifications Notification[]
+}
+
+model UserPreference {
+  id String @id @default(cuid())
+  userId String @unique
+  budgetLimit Int @default(100)
+  travelMinutes Int @default(45)
+  interests String[]
+  indoorPreferred Boolean @default(false)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Venue {
+  id String @id @default(cuid())
+  name String
+  address String
+  district String
+  latitude Decimal @db.Decimal(9, 6)
+  longitude Decimal @db.Decimal(9, 6)
+  createdAt DateTime @default(now())
+  activities Activity[]
+  routeStops RouteStop[]
+  savedItems SavedItem[]
+}
+
+model Activity {
+  id String @id @default(cuid())
+  title String
+  description String
+  type ActivityType
+  status ActivityStatus @default(PUBLISHED)
+  price Decimal @db.Decimal(10, 2)
+  startAt DateTime
+  endAt DateTime
+  capacity Int?
+  weatherFit String
+  tags String[]
+  venueId String
+  venue Venue @relation(fields: [venueId], references: [id])
+  groups DepartureGroup[]
+  guides GuidePost[]
+  checkins Checkin[]
+  savedItems SavedItem[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ExploreRoute {
+  id String @id @default(cuid())
+  title String
+  theme String
+  description String
+  durationMinutes Int
+  estimatedBudget Decimal @db.Decimal(10, 2)
+  weatherCondition String
+  stops RouteStop[]
+  groups DepartureGroup[]
+  guides GuidePost[]
+  savedItems SavedItem[]
+  createdAt DateTime @default(now())
+}
+
+model RouteStop {
+  id String @id @default(cuid())
+  routeId String
+  venueId String
+  sequence Int
+  suggestedStayMinutes Int
+  note String?
+  route ExploreRoute @relation(fields: [routeId], references: [id], onDelete: Cascade)
+  venue Venue @relation(fields: [venueId], references: [id])
+  @@unique([routeId, sequence])
+}
+
+model DepartureGroup {
+  id String @id @default(cuid())
+  title String
+  description String
+  meetupAt DateTime
+  meetupNote String
+  minSize Int @default(2)
+  maxSize Int
+  status GroupStatus @default(OPEN)
+  hostId String
+  activityId String?
+  routeId String?
+  host User @relation("GroupHost", fields: [hostId], references: [id])
+  activity Activity? @relation(fields: [activityId], references: [id])
+  route ExploreRoute? @relation(fields: [routeId], references: [id])
+  members GroupMember[]
+  requests JoinRequest[]
+  createdAt DateTime @default(now())
+}
+
+model GroupMember {
+  id String @id @default(cuid())
+  groupId String
+  userId String
+  role MemberRole @default(MEMBER)
+  joinStatus JoinStatus @default(APPROVED)
+  joinedAt DateTime @default(now())
+  group DepartureGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([groupId, userId])
+}
+
+model JoinRequest {
+  id String @id @default(cuid())
+  groupId String
+  userId String
+  message String?
+  status JoinStatus @default(PENDING)
+  requestedAt DateTime @default(now())
+  reviewedAt DateTime?
+  group DepartureGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([groupId, userId])
+}
+
+model GuidePost {
+  id String @id @default(cuid())
+  title String
+  content String
+  actualCost Decimal? @db.Decimal(10, 2)
+  actualDuration Int?
+  coverImageUrl String?
+  status GuideStatus @default(PUBLISHED)
+  authorId String
+  activityId String?
+  routeId String?
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  activity Activity? @relation(fields: [activityId], references: [id])
+  route ExploreRoute? @relation(fields: [routeId], references: [id])
+  savedItems SavedItem[]
+  createdAt DateTime @default(now())
+}
+
+model Checkin {
+  id String @id @default(cuid())
+  userId String
+  activityId String?
+  note String?
+  photoUrls String[]
+  checkedInAt DateTime @default(now())
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activity Activity? @relation(fields: [activityId], references: [id])
+}
+
+model SavedItem {
+  id String @id @default(cuid())
+  userId String
+  itemType SavedItemType
+  activityId String?
+  routeId String?
+  venueId String?
+  guideId String?
+  savedAt DateTime @default(now())
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activity Activity? @relation(fields: [activityId], references: [id])
+  route ExploreRoute? @relation(fields: [routeId], references: [id])
+  venue Venue? @relation(fields: [venueId], references: [id])
+  guide GuidePost? @relation(fields: [guideId], references: [id])
+}
+
+model Conversation {
+  id String @id @default(cuid())
+  createdAt DateTime @default(now())
+  messages Message[]
+}
+
+model Message {
+  id String @id @default(cuid())
+  conversationId String
+  senderId String
+  content String
+  type MessageType @default(TEXT)
+  sentAt DateTime @default(now())
+  readAt DateTime?
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender User @relation("Sender", fields: [senderId], references: [id], onDelete: Cascade)
+}
+
+model Notification {
+  id String @id @default(cuid())
+  userId String
+  type NotificationType
+  payload Json
+  isRead Boolean @default(false)
+  createdAt DateTime @default(now())
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
